@@ -7,7 +7,7 @@
 #include "InputActionValue.h"
 #include "CostumeClashCharacter.generated.h"
 
-
+class UPowerUpManager;
 UCLASS(config=Game)
 class ACostumeClashCharacter : public ACharacter
 {
@@ -20,6 +20,9 @@ class ACostumeClashCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UPowerUpManager> _PowerUpManager;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -37,6 +40,9 @@ class ACostumeClashCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* UseAbilityAction;
+
 public:
 	ACostumeClashCharacter();
 	
@@ -48,6 +54,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void CallUseAbility();
 			
 
 protected:
