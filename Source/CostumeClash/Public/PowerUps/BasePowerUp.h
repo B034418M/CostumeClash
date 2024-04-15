@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "BasePowerUp.generated.h"
 
+class ACostumeClashCharacter;
+
 UENUM(BlueprintType)
 enum class EPowerUpClass : uint8
 {
@@ -27,6 +29,9 @@ struct FPowerUpData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EPowerUpClass _PowerLevel;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float _Duration;
 };
 
 UCLASS(Abstract)
@@ -43,6 +48,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FPowerUpData _Data;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<ACostumeClashCharacter> _PlayerRef;
 
 protected:
 	// Called when the game starts or when spawned

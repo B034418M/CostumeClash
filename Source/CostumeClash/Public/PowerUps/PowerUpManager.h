@@ -7,6 +7,7 @@
 #include "PowerUpManager.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseAbilitySignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickupSignature, UClass*, PickupClass);
 
 class ACostumeClashCharacter;
 class ABasePowerUp;
@@ -25,8 +26,14 @@ public:
 							   FActorComponentTickFunction* ThisTickFunction) override;
 
 	FOnUseAbilitySignature OnUseAbilityDelegate;
+	FOnPickupSignature OnPickupDelegate;
 	
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	bool bUsingAbility;
+
+	FTimerHandle boolTimerHandle;
+	
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ABasePowerUp> _CurrentPowerUp;
 
 	// TODO REPLACE IF CHARACTER CLASS CHANGES
@@ -35,6 +42,9 @@ public:
 
 	UFUNCTION()
 	void UseAbility();
+	
+	UFUNCTION()
+	void OnPickup(UClass* newPickup);
 
 protected:
 	// Called when the game starts

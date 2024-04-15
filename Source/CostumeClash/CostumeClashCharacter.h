@@ -43,9 +43,11 @@ class ACostumeClashCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* UseAbilityAction;
 
+	
+
 public:
 	ACostumeClashCharacter();
-	
+
 
 protected:
 
