@@ -73,6 +73,27 @@ void UPowerUpManager::OnPickup(UClass* newPickup)
 	_CurrentPowerUp = newPickup;
 }
 
+void UPowerUpManager::AddPowerUp(EPowerUpClass powerUpLevel)
+{
+}
+
+TArray<ABasePowerUp*> UPowerUpManager::GetRandomPowerUp(EPowerUpClass Class)
+{
+	TArray<TSubclassOf<ABasePowerUp>> possiblePU;
+
+	for (TSubclassOf<ABasePowerUp> i : _PowerupList)
+	{
+		if (i.GetDefaultObject()->_Data._PowerLevel == Class)
+		{
+			possiblePU.Add(i);
+		}
+	}
+
+	possiblePU.FindByPredicate();
+	
+	return possiblePU.
+}
+
 // Called when the game starts
 void UPowerUpManager::BeginPlay()
 {

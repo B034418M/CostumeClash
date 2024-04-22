@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PowerUpManager.generated.h"
 
+enum class EPowerUpClass : uint8;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseAbilitySignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickupSignature, UClass*, PickupClass);
 
@@ -40,11 +41,23 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TObjectPtr<ACostumeClashCharacter> _PlayerRef;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TMap<EPowerUpClass, float> _ProbabilityMap;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TArray<TSubclassOf<ABasePowerUp>> _PowerupList;
+
 	UFUNCTION()
 	void UseAbility();
 	
 	UFUNCTION()
 	void OnPickup(UClass* newPickup);
+
+	UFUNCTION(BlueprintCallable)
+	void AddPowerUp(EPowerUpClass powerUpLevel);
+
+	UFUNCTION()
+	TArray<ABasePowerUp*> GetRandomPowerUp(EPowerUpClass Class);
 
 protected:
 	// Called when the game starts
