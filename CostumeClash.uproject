@@ -28,10 +28,6 @@
 		{
 			"Name": "PCGGeometryScriptInterop",
 			"Enabled": true
-		},
-		{
-			"Name": "HoudiniEngine",
-			"Enabled": true
 		}
 	]
 }
