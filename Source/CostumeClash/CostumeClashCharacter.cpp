@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Public/PowerUps/PowerUpManager.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -49,12 +50,18 @@ ACostumeClashCharacter::ACostumeClashCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	_PowerUpManager = CreateDefaultSubobject<UPowerUpManager>(TEXT("Power Up Manager"));
+	_PowerUpManager->RegisterComponent();
+	this->AddInstanceComponent(_PowerUpManager);
 }
 
 void ACostumeClashCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	_PowerUpManager->_PlayerRef = this;
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -83,6 +90,8 @@ void ACostumeClashCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACostumeClashCharacter::Look);
+
+		EnhancedInputComponent->BindAction(UseAbilityAction, ETriggerEvent::Completed, this, &ACostumeClashCharacter::CallUseAbility);
 
 	}
 
@@ -122,6 +131,11 @@ void ACostumeClashCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ACostumeClashCharacter::CallUseAbility()
+{
+	_PowerUpManager->OnUseAbilityDelegate.Broadcast();
 }
 
 
