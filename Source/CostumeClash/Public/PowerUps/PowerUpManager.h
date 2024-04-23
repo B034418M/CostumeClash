@@ -56,9 +56,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddPowerUp(EPowerUpClass powerUpLevel);
 
+	/*
 	UFUNCTION()
 	TArray<ABasePowerUp*> GetRandomPowerUp(EPowerUpClass Class);
-
+	*/
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
