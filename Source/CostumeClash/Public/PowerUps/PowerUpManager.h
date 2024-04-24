@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PowerUpManager.generated.h"
 
+enum class EPowerUpClass : uint8;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseAbilitySignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickupSignature, UClass*, PickupClass);
 
@@ -33,19 +34,28 @@ public:
 
 	FTimerHandle boolTimerHandle;
 	
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<ABasePowerUp> _CurrentPowerUp;
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<ABasePowerUp> _CurrentPowerUp;
 
 	// TODO REPLACE IF CHARACTER CLASS CHANGES
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TObjectPtr<ACostumeClashCharacter> _PlayerRef;
+
+	//unused
+	/*
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TMap<EPowerUpClass, float> _ProbabilityMap;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TArray<TSubclassOf<ABasePowerUp>> _PowerupList;
+	*/
 
 	UFUNCTION()
 	void UseAbility();
 	
 	UFUNCTION()
 	void OnPickup(UClass* newPickup);
-
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
