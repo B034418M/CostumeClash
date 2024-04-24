@@ -3,36 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PowerUpData.h"
 #include "GameFramework/Actor.h"
 #include "BasePowerUp.generated.h"
 
 class ACostumeClashCharacter;
-
-UENUM(BlueprintType)
-enum class EPowerUpClass : uint8
-{
-	LOW,
-	MEDIUM,
-	HIGH
-};
-
-USTRUCT(BlueprintType)
-struct FPowerUpData
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FString _Name;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UTexture2D> _Icon;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	EPowerUpClass _PowerLevel;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	float _Duration;
-};
+class UDataTable;
 
 UCLASS(Abstract)
 class COSTUMECLASH_API ABasePowerUp : public AActor
@@ -48,6 +24,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FPowerUpData _Data;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UDataTable* _DataTable;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<ACostumeClashCharacter> _PlayerRef;
@@ -59,4 +38,5 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
 };

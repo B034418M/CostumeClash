@@ -34,32 +34,28 @@ public:
 
 	FTimerHandle boolTimerHandle;
 	
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<ABasePowerUp> _CurrentPowerUp;
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<ABasePowerUp> _CurrentPowerUp;
 
 	// TODO REPLACE IF CHARACTER CLASS CHANGES
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TObjectPtr<ACostumeClashCharacter> _PlayerRef;
 
+	//unused
+	/*
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TMap<EPowerUpClass, float> _ProbabilityMap;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TArray<TSubclassOf<ABasePowerUp>> _PowerupList;
+	*/
 
 	UFUNCTION()
 	void UseAbility();
 	
 	UFUNCTION()
 	void OnPickup(UClass* newPickup);
-
-	UFUNCTION(BlueprintCallable)
-	void AddPowerUp(EPowerUpClass powerUpLevel);
-
-	/*
-	UFUNCTION()
-	TArray<ABasePowerUp*> GetRandomPowerUp(EPowerUpClass Class);
-	*/
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

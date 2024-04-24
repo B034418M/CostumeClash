@@ -1,31 +1,55 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PowerUps/PowerUpSpawner.h"
+#include "PowerUps/PowerUpSpawningComp.h"
 #include "PowerUps/BasePowerUp.h"
 #include "PowerUps/Pickup.h"
 
 
-// Sets default values
-UPowerUpSpawner::UPowerUpSpawner()
+// Sets default values for this component's properties
+UPowerUpSpawningComp::UPowerUpSpawningComp()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-}
 
-// Called when the game starts or when spawned
-void UPowerUpSpawner::BeginPlay()
-{
-	Super::BeginPlay();
+	// ...
+
 	
 }
 
-void UPowerUpSpawner::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+
+// Called when the game starts
+void UPowerUpSpawningComp::BeginPlay()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	Super::BeginPlay();
+
+	if(_DataTable)
+	{
+		TArray<FName> rowNames = _DataTable->GetRowNames();
+		for (FName RowName : rowNames)
+		{
+			FPowerUpData* structData = _DataTable->FindRow<FPowerUpData>(RowName, "");
+			if(structData->_PowerLevel == _SpawnerLevel && !_PowerUpList.Contains(structData->_Class))
+			{
+				_PowerUpList.AddUnique(structData->_Class);
+			}
+		}
+	}
+	
 }
 
-void UPowerUpSpawner::SpawnPickup()
+
+// Called every frame
+void UPowerUpSpawningComp::TickComponent(float DeltaTime, ELevelTick TickType,
+                                         FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// ...
+}
+
+void UPowerUpSpawningComp::SpawnPickup()
 {
 	FActorSpawnParameters spawnInfo;
 	FRotator rot(0.0f, 0.0f, 0.0f);
@@ -42,7 +66,7 @@ void UPowerUpSpawner::SpawnPickup()
 
 }
 
-TSubclassOf<ABasePowerUp> UPowerUpSpawner::GetRandomPowerUp(EPowerUpClass Class)
+TSubclassOf<ABasePowerUp> UPowerUpSpawningComp::GetRandomPowerUp(EPowerUpClass Class)
 {
 	TArray<TSubclassOf<ABasePowerUp>> possiblePU;
 
@@ -67,5 +91,3 @@ TSubclassOf<ABasePowerUp> UPowerUpSpawner::GetRandomPowerUp(EPowerUpClass Class)
 	}
 	return newAbility;
 }
-
-
