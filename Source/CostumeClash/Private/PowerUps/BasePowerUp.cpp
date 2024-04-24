@@ -9,6 +9,7 @@ ABasePowerUp::ABasePowerUp()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 void ABasePowerUp::UseAbility_Implementation()
@@ -23,6 +24,21 @@ void ABasePowerUp::UseAbility_Implementation()
 void ABasePowerUp::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if(_DataTable)
+	{
+		TArray<FName> rowNames = _DataTable->GetRowNames();
+		for (FName RowName : rowNames)
+		{
+			FPowerUpData* structData = _DataTable->FindRow<FPowerUpData>(RowName, "");
+
+			if(structData->_Class == this->GetClass())
+			{
+				_Data = *structData;
+				UE_LOG(LogTemp, Warning, TEXT("_____________________CALLED!______________________"));
+			}
+		}
+	}
 }
 
 
