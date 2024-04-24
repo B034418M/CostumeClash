@@ -19,5 +19,3 @@ Now that you've downloaded it, open it up. [You may be prompted to rebuild your 
 ^ Simply go to the tools tab, press "Generate Visual Studio Project".
 
 You're now set! For help with github, please reach out if you have any issues, though I will likely be adding in a git contribution guide to this list later.
-
-a
