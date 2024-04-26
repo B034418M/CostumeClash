@@ -53,8 +53,9 @@ ACostumeClashCharacter::ACostumeClashCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
+	// Registering a component in the constructor is painfully crashy, you don't need to do this anyway.
+	// It's only needed when you are already running the game and it's in runtime. - Jon
 	_PowerUpManager = CreateDefaultSubobject<UPowerUpManager>(TEXT("Power Up Manager"));
-	_PowerUpManager->RegisterComponent();
 	this->AddInstanceComponent(_PowerUpManager);
 }
 
