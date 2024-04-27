@@ -33,8 +33,14 @@ void UPowerUpSpawningComp::BeginPlay()
 			if(structData->_PowerLevel == _SpawnerLevel && !_PowerUpList.Contains(structData->_Class))
 			{
 				_PowerUpList.AddUnique(structData->_Class);
+				UE_LOG(LogTemp, Display, TEXT("___________ADDED A POWERUP__________"));
 			}
 		}
+	}
+
+	for (auto Element : _ProbabilityMap)
+	{
+		totalProbability += Element.Value;
 	}
 	
 }
@@ -51,19 +57,38 @@ void UPowerUpSpawningComp::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UPowerUpSpawningComp::SpawnPickup()
 {
-	FActorSpawnParameters spawnInfo;
-	FRotator rot(0.0f, 0.0f, 0.0f);
-	FVector loc = GetOwner()->GetActorLocation();
-		
-	APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
+	/* OLD SYSTEM
+	 
+	// Works out the percentage chance using all probabilities from the map and if the random number between 0 and 1 is less than or
+	// equal to the corresponding decimal, then spawn. i.e 60% chance, if number is <= 0.6, spawn as it has a "theoretically" 60% chance
+	
+	float* value = _ProbabilityMap.Find(_SpawnerLevel);
+	float probability = *value / totalProbability;
 
-	TSubclassOf<ABasePowerUp> newAbility = GetRandomPowerUp(_SpawnerLevel);
+	bool bShouldSpawn = FMath::RandRange(0.0f, 0.0f) <= probability;
+	*/
 
-	if(newAbility)
+	bool bShouldSpawn = (FMath::RandRange(0.0f, 1.0f) <= *_ProbabilityMap.Find(_SpawnerLevel)) ? true : false;
+	
+	if(bShouldSpawn)
 	{
-		pickup->_PowerUpClass = newAbility;
-	}
+		UE_LOG(LogTemp, Display, TEXT("___________SPAWNING PICKUP__________"));
+	
+		FActorSpawnParameters spawnInfo;
+		FRotator rot(0.0f, 0.0f, 0.0f);
+		FVector loc = GetOwner()->GetActorLocation();
+		loc.Z = 0.0f;
+		
+		APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
 
+		TSubclassOf<ABasePowerUp> newAbility = GetRandomPowerUp(_SpawnerLevel);
+
+		if(newAbility && pickup)
+		{
+			pickup->_PowerUpClass = newAbility;
+		}
+	}
+	
 }
 
 TSubclassOf<ABasePowerUp> UPowerUpSpawningComp::GetRandomPowerUp(EPowerUpClass Class)
