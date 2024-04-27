@@ -26,7 +26,10 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TArray<TSubclassOf<ABasePowerUp>> _PowerUpList;
-
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TMap<EPowerUpClass, float> _ProbabilityMap;
+	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	EPowerUpClass _SpawnerLevel;
 	
@@ -39,7 +42,7 @@ protected:
 	virtual void BeginPlay() override;
 	
 	
-
+	float totalProbability;
 	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
