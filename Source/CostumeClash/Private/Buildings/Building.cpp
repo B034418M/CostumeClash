@@ -19,6 +19,7 @@ ABuilding::ABuilding()
 
 	_Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	_Mesh->SetupAttachment(RootComponent);
+
 }
 
 void ABuilding::Destroy()
@@ -31,6 +32,7 @@ void ABuilding::Destroy()
 void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 

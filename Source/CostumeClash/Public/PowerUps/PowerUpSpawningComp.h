@@ -30,7 +30,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TMap<EPowerUpClass, float> _ProbabilityMap;
 	
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EPowerUpClass _SpawnerLevel;
 	
 	UFUNCTION(BlueprintCallable)
