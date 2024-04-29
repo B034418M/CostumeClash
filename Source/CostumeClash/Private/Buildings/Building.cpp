@@ -16,6 +16,9 @@ ABuilding::ABuilding()
 	// It's only needed when you are already running the game and it's in runtime. - Jon
 	_PowerUpSpawner = CreateDefaultSubobject<UPowerUpSpawningComp>(TEXT("Power Up Spawner"));
 	this->AddInstanceComponent(_PowerUpSpawner);
+
+	_Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	_Mesh->SetupAttachment(RootComponent);
 }
 
 void ABuilding::Destroy()
