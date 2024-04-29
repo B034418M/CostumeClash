@@ -65,7 +65,7 @@ void UPowerUpSpawningComp::SpawnPickup()
 	float* value = _ProbabilityMap.Find(_SpawnerLevel);
 	float probability = *value / totalProbability;
 
-	bool bShouldSpawn = FMath::RandRange(0.0f, 0.0f) <= probability;
+	bool bShouldSpawn = FMath::RandRange(0.0f, 1.0f) <= probability;
 	*/
 
 	bool bShouldSpawn = (FMath::RandRange(0.0f, 1.0f) <= *_ProbabilityMap.Find(_SpawnerLevel)) ? true : false;
@@ -77,7 +77,7 @@ void UPowerUpSpawningComp::SpawnPickup()
 		FActorSpawnParameters spawnInfo;
 		FRotator rot(0.0f, 0.0f, 0.0f);
 		FVector loc = GetOwner()->GetActorLocation();
-		loc.Z = 0.0f;
+		loc.Z = 30.0f;
 		
 		APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
 
