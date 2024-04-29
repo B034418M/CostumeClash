@@ -26,6 +26,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UPowerUpSpawningComp> _PowerUpSpawner;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> _Mesh;
+
+	
 
 public:
 	// Called every frame
