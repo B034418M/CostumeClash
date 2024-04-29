@@ -27,6 +27,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UTexture2D> _Icon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UStaticMesh> _Mesh;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EPowerUpClass _PowerLevel;
