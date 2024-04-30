@@ -31,23 +31,31 @@ void UPowerUpManager::UseAbility()
 	{
 		if(!bUsingAbility)
 		{
-			
-
 			if(_CurrentPowerUp->_Data._Duration > 0)
 			{
 				bUsingAbility = true;
+				
+				_CurrentPowerUp->_PlayerRef = _PlayerRef;
+				_CurrentPowerUp->UseAbility();
+				
 				GetOwner()->GetWorld()->GetTimerManager().SetTimer(boolTimerHandle, FTimerDelegate::CreateLambda([=]()
 				{
 					bUsingAbility = false;
+
+					_CurrentPowerUp->Destroy();
+					_CurrentPowerUp = nullptr;
+					
 					GetOwner()->GetWorld()->GetTimerManager().ClearTimer(boolTimerHandle);
 				}), _CurrentPowerUp->_Data._Duration, false);
 			}
+			else
+			{
+				_CurrentPowerUp->_PlayerRef = _PlayerRef;
+				_CurrentPowerUp->UseAbility();
 
-			_CurrentPowerUp->_PlayerRef = _PlayerRef;
-			_CurrentPowerUp->UseAbility();
-
-			_CurrentPowerUp->Destroy();
-			_CurrentPowerUp = nullptr;
+				_CurrentPowerUp->Destroy();
+				_CurrentPowerUp = nullptr;
+			}
 		}
 		else
 		{
@@ -70,14 +78,17 @@ void UPowerUpManager::UseAbility()
 
 void UPowerUpManager::OnPickup(UClass* newPickup)
 {
-	if(_CurrentPowerUp)
+	if(!bUsingAbility)
 	{
-		_CurrentPowerUp->Destroy();
+		if(_CurrentPowerUp)
+		{
+			_CurrentPowerUp->Destroy();
+		}
+		FRotator rotation(0.0f, 0.0f, 0.0f);
+		FActorSpawnParameters spawnParameters;
+		_CurrentPowerUp = GetOwner()->GetWorld()->SpawnActor<ABasePowerUp>(newPickup, _PlayerRef->GetTransform().GetLocation(), rotation, spawnParameters);
+		_CurrentPowerUp->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("Power Up"));
 	}
-	FRotator rotation(0.0f, 0.0f, 0.0f);
-	FActorSpawnParameters spawnParameters;
-	_CurrentPowerUp = GetOwner()->GetWorld()->SpawnActor<ABasePowerUp>(newPickup, _PlayerRef->GetTransform().GetLocation(), rotation, spawnParameters);
-	_CurrentPowerUp->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("Power Up"));
 }
 
 // Called when the game starts

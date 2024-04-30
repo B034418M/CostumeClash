@@ -45,10 +45,6 @@ void APickup::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(_PowerUpClass)
-	{
-		_Mesh->SetStaticMesh(_PowerUpClass.GetDefaultObject()->_Data._Mesh);
-	}
 }
 
 // Called every frame
