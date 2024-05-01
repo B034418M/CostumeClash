@@ -32,6 +32,7 @@ public:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
 	bool bUsingAbility;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FTimerHandle boolTimerHandle;
 	
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))

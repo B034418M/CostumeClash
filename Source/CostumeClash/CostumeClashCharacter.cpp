@@ -83,16 +83,16 @@ void ACostumeClashCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 {
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
-		
-		//Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+	//	
+	//	//Jumping
+	//	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+	//	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
-		//Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACostumeClashCharacter::Move);
+	//	//Moving
+	//	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACostumeClashCharacter::Move);
 
-		//Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACostumeClashCharacter::Look);
+	//	//Looking
+	//	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACostumeClashCharacter::Look);
 
 		EnhancedInputComponent->BindAction(UseAbilityAction, ETriggerEvent::Completed, this, &ACostumeClashCharacter::CallUseAbility);
 
