@@ -46,7 +46,7 @@ void UPowerUpManager::UseAbility()
 					_CurrentPowerUp = nullptr;
 					
 					GetOwner()->GetWorld()->GetTimerManager().ClearTimer(boolTimerHandle);
-				}), _CurrentPowerUp->_Data._Duration, false);
+				}), _CurrentPowerUp->_Data._Duration + 0.1f, false);
 			}
 			else
 			{
