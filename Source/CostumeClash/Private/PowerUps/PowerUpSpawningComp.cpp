@@ -30,10 +30,10 @@ void UPowerUpSpawningComp::BeginPlay()
 		for (FName RowName : rowNames)
 		{
 			FPowerUpData* structData = _DataTable->FindRow<FPowerUpData>(RowName, "");
-			if(structData->_PowerLevel == _SpawnerLevel && !_PowerUpList.Contains(structData->_Class))
+			if(!_PowerUpList.Contains(structData->_Class))
 			{
 				_PowerUpList.AddUnique(structData->_Class);
-				UE_LOG(LogTemp, Display, TEXT("___________ADDED A POWERUP__________"));
+				UE_LOG(LogTemp, Display, TEXT("___________ADDED A POWERUP_IMGONNABUSS!!!__________"));
 			}
 		}
 	}
@@ -73,35 +73,45 @@ void UPowerUpSpawningComp::SpawnPickup()
 	if(bShouldSpawn)
 	{
 		UE_LOG(LogTemp, Display, TEXT("___________SPAWNING PICKUP__________"));
-	
-		FActorSpawnParameters spawnInfo;
-		FRotator rot(0.0f, 0.0f, 0.0f);
-		FVector loc = GetOwner()->GetActorLocation();
-		loc.Z = 30.0f;
 		
-		APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
-
 		TSubclassOf<ABasePowerUp> newAbility = GetRandomPowerUp(_SpawnerLevel);
 
-		if(newAbility && pickup)
+		if(newAbility != nullptr)
 		{
-			pickup->_PowerUpClass = newAbility;
+			FActorSpawnParameters spawnInfo;
+			FRotator rot(0.0f, 0.0f, 0.0f);
+			FVector loc = GetOwner()->GetActorLocation();
+			loc.Z = 30.0f;
+		
+			APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
+
+			if(pickup) pickup->_PowerUpClass = newAbility;
 		}
 	}
-	
 }
 
 TSubclassOf<ABasePowerUp> UPowerUpSpawningComp::GetRandomPowerUp(EPowerUpClass Class)
 {
 	TArray<TSubclassOf<ABasePowerUp>> possiblePU;
 
-	for (TSubclassOf<ABasePowerUp> i : _PowerUpList)
+	if(_PowerUpList.Num() > 0)
 	{
-		if (i.GetDefaultObject()->_Data._PowerLevel == Class)
+		for (TSubclassOf<ABasePowerUp> i : _PowerUpList)
 		{
-			possiblePU.Add(i);
+			if(IsValid(i))
+			{
+				if (i.GetDefaultObject()->_Data._PowerLevel == Class)
+				{
+					possiblePU.Add(i);
+				}
+			}
 		}
 	}
+	else
+	{
+		return nullptr;
+	}
+	
 	
 	int totalPUNum = possiblePU.Num();
 	TSubclassOf<ABasePowerUp> newAbility;
