@@ -35,7 +35,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FTimerHandle boolTimerHandle;
 	
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ABasePowerUp> _CurrentPowerUp;
 
 	// TODO REPLACE IF CHARACTER CLASS CHANGES
