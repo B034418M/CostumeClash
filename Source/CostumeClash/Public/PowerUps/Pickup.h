@@ -31,7 +31,7 @@ public:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
 	TObjectPtr<UPowerUpManager> _PowerUpManager;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<ABasePowerUp> _PowerUpClass;
 
 protected:
