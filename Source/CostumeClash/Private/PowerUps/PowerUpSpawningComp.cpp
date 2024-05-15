@@ -2,9 +2,6 @@
 
 
 #include "PowerUps/PowerUpSpawningComp.h"
-
-#include "Kismet/GameplayStatics.h"
-#include "Math/TransformCalculus3D.h"
 #include "PowerUps/BasePowerUp.h"
 #include "PowerUps/Pickup.h"
 
@@ -75,8 +72,8 @@ void UPowerUpSpawningComp::SpawnPickup()
 	
 	if(bShouldSpawn)
 	{
-		UE_LOG(LogTemp, Display, TEXT("___________CALLED SHOULD SPAWN__________"));
-
+		UE_LOG(LogTemp, Display, TEXT("___________SPAWNING PICKUP__________"));
+		
 		TSubclassOf<ABasePowerUp> newAbility = GetRandomPowerUp(_SpawnerLevel);
 
 		if(newAbility != nullptr)
@@ -85,32 +82,10 @@ void UPowerUpSpawningComp::SpawnPickup()
 			FRotator rot(0.0f, 0.0f, 0.0f);
 			FVector loc = GetOwner()->GetActorLocation();
 			loc.Z = 30.0f;
-			FVector scale(1.0f, 1.0f, 1.0f);
+		
+			APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
 
-			FTransform trans(rot, loc, scale);
-			
-			APickup* pickup = GetOwner()->GetWorld()->SpawnActorDeferred<APickup>(_PickupToSpawn, trans, GetOwner());
-
-			if(pickup)
-			{
-				UE_LOG(LogTemp, Display, TEXT("___________SPAWNING PICKUP %s__________"), ToCStr(newAbility->GetName()));
-				/*
-				FTimerDelegate TimerDelegate;
-				TimerDelegate.BindLambda([&]
-				{
-					pickup->_PowerUpClass = newAbility;
-					UE_LOG(LogTemp, Display, TEXT("___________Setting Class__________"));
-				});
-
-				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, 0.01f, false);
-				*/
-
-				pickup->_PowerUpClass = newAbility;
-				UE_LOG(LogTemp, Display, TEXT("___________Setting Class__________"));
-
-				UGameplayStatics::FinishSpawningActor(pickup, trans);
-			}
+			if(pickup) pickup->_PowerUpClass = newAbility;
 		}
 	}
 }
