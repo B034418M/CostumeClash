@@ -2,6 +2,8 @@
 
 
 #include "PowerUps/PowerUpSpawningComp.h"
+
+#include "Kismet/GameplayStatics.h"
 #include "PowerUps/BasePowerUp.h"
 #include "PowerUps/Pickup.h"
 
@@ -83,9 +85,31 @@ void UPowerUpSpawningComp::SpawnPickup()
 			FVector loc = GetOwner()->GetActorLocation();
 			loc.Z = 30.0f;
 		
-			APickup* pickup = GetOwner()->GetWorld()->SpawnActor<APickup>(_PickupToSpawn, loc, rot, spawnInfo);
+			FVector scale(1.0f, 1.0f, 1.0f);
 
-			if(pickup) pickup->_PowerUpClass = newAbility;
+			FTransform trans(rot, loc, scale);
+
+			APickup* pickup = GetOwner()->GetWorld()->SpawnActorDeferred<APickup>(_PickupToSpawn, trans, GetOwner());
+			
+			if(pickup)
+			{
+				UE_LOG(LogTemp, Display, TEXT("___________SPAWNING PICKUP %s__________"), ToCStr(newAbility->GetName()));
+				/*
+				FTimerDelegate TimerDelegate;
+				TimerDelegate.BindLambda([&]
+				{
+					pickup->_PowerUpClass = newAbility;
+					UE_LOG(LogTemp, Display, TEXT("___________Setting Class__________"));
+				});
+				FTimerHandle TimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, 0.01f, false);
+				*/
+
+				pickup->_PowerUpClass = newAbility;
+				UE_LOG(LogTemp, Display, TEXT("___________Setting Class__________"));
+
+				UGameplayStatics::FinishSpawningActor(pickup, trans);
+			}
 		}
 	}
 }
