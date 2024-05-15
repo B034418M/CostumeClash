@@ -84,13 +84,10 @@ void UPowerUpManager::OnPickup(UClass* newPickup)
 		{
 			_CurrentPowerUp->Destroy();
 		}
-		if(IsValid(newPickup))
-		{
-			FRotator rotation(0.0f, 0.0f, 0.0f);
-			FActorSpawnParameters spawnParameters;
-			_CurrentPowerUp = GetOwner()->GetWorld()->SpawnActor<ABasePowerUp>(newPickup, _PlayerRef->GetTransform().GetLocation(), rotation, spawnParameters);
-			_CurrentPowerUp->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("Power Up"));
-		}
+		FRotator rotation(0.0f, 0.0f, 0.0f);
+		FActorSpawnParameters spawnParameters;
+		_CurrentPowerUp = GetOwner()->GetWorld()->SpawnActor<ABasePowerUp>(newPickup, _PlayerRef->GetTransform().GetLocation(), rotation, spawnParameters);
+		_CurrentPowerUp->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("Power Up"));
 	}
 }
 
