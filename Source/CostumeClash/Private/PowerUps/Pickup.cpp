@@ -45,7 +45,6 @@ void APickup::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
 }
 
 // Called every frame
